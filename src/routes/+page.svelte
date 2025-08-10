@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import confetti from 'canvas-confetti';
+	import { Undo2, TriangleAlert, Settings } from 'lucide-svelte';
 
 	enum Team {
 		TeamA = 'teamA',
@@ -215,15 +216,15 @@
 			disabled={lastPointTo === null || (teamAScore === 0 && teamBScore === 0)}
 			title="Undo last point"
 		>
-			↶
+			<Undo2 size={20} />
 		</button>
 
 		<button class="control-btn reset-btn" onclick={() => (isShowingAlert = true)} title="Reset game">
-			⚠️
+			<TriangleAlert size={20} />
 		</button>
 
 		<button class="control-btn config-btn" onclick={() => (isShowingConfig = true)} title="Settings">
-			⚙️
+			<Settings size={20} />
 		</button>
 	</div>
 
