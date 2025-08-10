@@ -17,19 +17,27 @@
 	let serveSwapOvertime = $state(1);
 	let isOverTime = $state(false);
 	let isTeamAServe = $state(true);
-	let moving = $state(-70.0);
+	let moving = $state(-80.0);
 
-	const teamAOffset = -70.0;
-	const teamBOffset = 70.0;
+	const teamAOffset = -160.0;
+	const teamBOffset = 80.0;
 
 	$effect(() => {
 		moving = isTeamAServe ? teamAOffset : teamBOffset;
 	});
 
 	function checkServeSwap() {
+		const totalPoints = teamAScore + teamBScore;
+		
+		// Don't swap serve until at least serveSwapEvery points have been scored
+		if (totalPoints === 0) {
+			isTeamAServe = true;
+			return;
+		}
+		
 		const serveAmount = isOverTime
-			? Math.floor((teamAScore + teamBScore + serveSwapOvertime) / serveSwapOvertime)
-			: Math.floor((teamAScore + teamBScore + serveSwapEvery) / serveSwapEvery);
+			? Math.floor(totalPoints / serveSwapOvertime)
+			: Math.floor(totalPoints / serveSwapEvery);
 
 		isTeamAServe = serveAmount % 2 === 0;
 	}
@@ -44,10 +52,7 @@
 	function fireConfetti(team: Team) {
 		const colors = team === Team.TeamA ? ['#4f46e5', '#6366f1'] : ['#ec4899', '#f472b6'];
 		confetti({
-			particleCount: 200,
-			spread: 70,
-			origin: { y: team === Team.TeamA ? 0.3 : 0.7 },
-			colors: colors
+			particleCount: 300,
 		});
 	}
 
@@ -186,7 +191,7 @@
 	<div class="center-line"></div>
 
 	<!-- Serve Indicator (Tennis Ball) -->
-	<div class="serve-indicator" style="transform: translateX({moving}px) translateY(-50%);">
+	<div class="serve-indicator" style="transform: translateY({moving}px) translateX(-50%);">
 		🎾
 	</div>
 
@@ -212,8 +217,8 @@
 
 	<!-- Reset Confirmation Modal -->
 	{#if isShowingAlert}
-		<div class="modal-overlay" onclick={() => (isShowingAlert = false)}>
-			<div class="modal" onclick={(e) => e.stopPropagation()}>
+		<div class="modal-overlay" role="button" tabindex="0" onclick={() => (isShowingAlert = false)} onkeydown={(e) => e.key === 'Escape' || e.key === 'Enter' || e.key === ' ' ? (isShowingAlert = false) : null}>
+			<div class="modal" role="dialog" tabindex="0" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()}>
 				<h2>You sure, bruh?</h2>
 				<div class="modal-actions">
 					<button class="btn btn-secondary" onclick={() => (isShowingAlert = false)}>Cancel</button>
@@ -233,8 +238,8 @@
 
 	<!-- Configuration Modal -->
 	{#if isShowingConfig}
-		<div class="modal-overlay" onclick={() => (isShowingConfig = false)}>
-			<div class="modal config-modal" onclick={(e) => e.stopPropagation()}>
+		<div class="modal-overlay" role="button" tabindex="0" onclick={() => (isShowingConfig = false)} onkeydown={(e) => e.key === 'Enter' || e.key === ' ' ? (isShowingConfig = false) : null}>
+			<div class="modal config-modal" role="dialog" tabindex="0" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()}>
 				<div class="modal-header">
 					<h2>Configuration</h2>
 					<button class="close-btn" onclick={() => (isShowingConfig = false)}>×</button>
@@ -320,7 +325,6 @@
 	.team-a {
 		background: linear-gradient(135deg, #4f46e5, #6366f1);
 		color: white;
-		transform: rotate(180deg);
 	}
 
 	.team-b {
