@@ -139,6 +139,18 @@
 	let teamBElement: HTMLElement;
 
 	onMount(() => {
+		// Lock screen orientation to portrait
+		if (typeof window !== 'undefined' && screen && screen.orientation) {
+			try {
+				screen.orientation.lock('portrait').catch(() => {
+					// Fallback for browsers that don't support orientation lock
+					console.log('Orientation lock not supported');
+				});
+			} catch (error) {
+				console.log('Orientation lock not available');
+			}
+		}
+		
 		// Set up gesture handling
 		if (typeof window !== 'undefined') {
 			import('hammerjs').then(({ default: Hammer }) => {
@@ -578,14 +590,29 @@
 		}
 	}
 
-	/* Landscape mobile optimizations */
-	@media (max-height: 500px) and (orientation: landscape) {
+	/* CSS orientation handling - JavaScript will handle the actual orientation lock */
+	
+	/* Only rotate scores on mobile devices in landscape */
+	@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+		.score-text {
+			transform: rotate(90deg);
+			transition: transform 0.3s ease;
+		}
+		
 		.control-panel {
 			top: 0.5rem;
 		}
 
 		.serve-indicator {
 			font-size: 2rem;
+		}
+	}
+	
+	/* Ensure scores are normal on desktop and mobile portrait */
+	@media (orientation: portrait), (hover: hover) and (pointer: fine) {
+		.score-text {
+			transform: rotate(0deg);
+			transition: transform 0.3s ease;
 		}
 	}
 </style>
