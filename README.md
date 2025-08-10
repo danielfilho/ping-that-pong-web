@@ -2,6 +2,8 @@
 
 A fun and interactive ping pong score tracking web application built with SvelteKit.
 
+Note: this has been migrated from a native iOS app I made to lear Swift and SwiftUI to SvelteKit, so I learn it.
+
 ## Features
 
 - ⚡ Real-time score tracking for two teams
@@ -22,17 +24,20 @@ A fun and interactive ping pong score tracking web application built with Svelte
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd ping-that-pong-web
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -42,7 +47,7 @@ npm run dev
 ## How to Play
 
 1. **Scoring**: Tap on a team's area to add a point
-2. **Swipe Gestures**: 
+2. **Swipe Gestures**:
    - Swipe right to add a point
    - Swipe left to remove a point
 3. **Serve Tracking**: The tennis ball emoji indicates which team is serving
