@@ -183,6 +183,28 @@ export const gameActions = {
 		});
 	},
 
+	clearData: () => {
+		if (typeof window === 'undefined') return;
+		
+		try {
+			// Temporarily disable saving
+			shouldSave = false;
+			// Remove the key from localStorage
+			localStorage.removeItem(STORAGE_KEY);
+			console.log('Removed localStorage key completely');
+			// Reset to defaults without saving
+			gameState.set(DEFAULT_GAME_STATE);
+			// Re-enable saving after a brief delay
+			setTimeout(() => {
+				shouldSave = true;
+			}, 100);
+		} catch (error) {
+			console.warn('Failed to clear localStorage:', error);
+			// Re-enable saving even on error
+			shouldSave = true;
+		}
+	},
+
 	_updateServe: (state: GameState) => {
 		const totalPoints = state.teamAScore + state.teamBScore;
 		

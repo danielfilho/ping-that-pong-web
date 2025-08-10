@@ -30,6 +30,13 @@
 		gameActions.updateSettings(localSettings);
 		onClose();
 	}
+
+	function handleClearData() {
+		if (confirm('Are you sure you want to clear all saved data? This cannot be undone.')) {
+			gameActions.clearData();
+			onClose();
+		}
+	}
 </script>
 
 <Modal {isOpen} title="Configuration" {onClose}>
@@ -70,6 +77,9 @@
 	</div>
 	
 	<div class="modal-footer">
+		<Button variant="danger" onclick={handleClearData}>
+			Clear Data
+		</Button>
 		<Button variant="primary" onclick={handleSave}>
 			Done
 		</Button>
@@ -140,7 +150,7 @@
 	.modal-footer {
 		display: flex;
 		gap: 1rem;
-		justify-content: flex-end;
+		justify-content: space-between;
 		margin-top: 2rem;
 	}
 </style>
