@@ -214,15 +214,15 @@
 			disabled={lastPointTo === null || (teamAScore === 0 && teamBScore === 0)}
 			title="Undo last point"
 		>
-			<Undo2 size={20} />
+			<Undo2 size={24} />
 		</button>
 
 		<button class="control-btn reset-btn" onclick={() => (isShowingAlert = true)} title="Reset game">
-			<TriangleAlert size={20} />
+			<TriangleAlert size={24} />
 		</button>
 
 		<button class="control-btn config-btn" onclick={() => (isShowingConfig = true)} title="Settings">
-			<Settings size={20} />
+			<Settings size={24} />
 		</button>
 	</div>
 
@@ -414,8 +414,8 @@
 	}
 
 	.control-btn {
-		width: 3.5rem;
-		height: 3.5rem;
+		width: 4.5rem;
+		height: 4.5rem;
 		border: none;
 		border-radius: 50%;
 		background: rgba(255, 255, 255, 0.12);
