@@ -180,7 +180,6 @@
 			bind:this={teamAElement}
 			class="score-area team-a"
 			onclick={handleTeamATap}
-			ontouchstart={handleTeamATap}
 		>
 			<div class="score-display">
 				<span class="score-text">{teamAScore}</span>
@@ -192,7 +191,6 @@
 			bind:this={teamBElement}
 			class="score-area team-b"
 			onclick={handleTeamBTap}
-			ontouchstart={handleTeamBTap}
 		>
 			<div class="score-display">
 				<span class="score-text">{teamBScore}</span>
