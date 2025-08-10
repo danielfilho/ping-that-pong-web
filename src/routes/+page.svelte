@@ -742,9 +742,13 @@
 		}
 
 		.control-btn {
-			width: 2.5rem;
-			height: 2.5rem;
-			font-size: 1rem;
+			width: 4rem;
+			height: 4rem;
+		}
+
+		.control-btn :global(svg) {
+			width: 22px;
+			height: 22px;
 		}
 
 		.modal {
@@ -757,10 +761,21 @@
 		}
 	}
 
-	/* CSS orientation handling - JavaScript will handle the actual orientation lock */
-	
-	/* Only rotate scores on mobile devices in landscape */
+	/* Force portrait layout on mobile devices */
 	@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+		.app {
+			transform: rotate(90deg);
+			transform-origin: center center;
+			width: 100vh;
+			height: 100vw;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			margin-left: -50vh;
+			margin-top: -50vw;
+		}
+		
+		/* Rotate scores back since the whole app is rotated */
 		.score-text {
 			transform: rotate(90deg);
 			transition: transform 0.3s ease;
@@ -775,8 +790,18 @@
 		}
 	}
 	
-	/* Ensure scores are normal on desktop and mobile portrait */
+	/* Normal layout on desktop and mobile portrait */
 	@media (orientation: portrait), (hover: hover) and (pointer: fine) {
+		.app {
+			transform: none;
+			width: 100%;
+			height: 100vh;
+			position: relative;
+			top: auto;
+			left: auto;
+			margin: 0;
+		}
+		
 		.score-text {
 			transform: rotate(0deg);
 			transition: transform 0.3s ease;
