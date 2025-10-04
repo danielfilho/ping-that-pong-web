@@ -22,7 +22,7 @@
 			Cancel
 		</Button>
 		<Button variant="danger" onclick={handleReset}>
-			Reset score
+			Reset
 		</Button>
 	</div>
 </Modal>

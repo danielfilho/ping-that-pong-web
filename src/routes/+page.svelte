@@ -6,53 +6,51 @@
 	import ScoreArea from '$lib/components/ScoreArea.svelte';
 	import GameSettings from '$lib/components/GameSettings.svelte';
 	import ResetConfirmation from '$lib/components/ResetConfirmation.svelte';
-	import type { Team } from '$lib/types.js';
+	import { Team } from '$lib/types.js';
 
 	let isShowingAlert = $state(false);
 	let isShowingConfig = $state(false);
-	let teamAElement: HTMLElement = $state();
-	let teamBElement: HTMLElement = $state();
+	let teamAElement: HTMLElement | undefined = $state();
+	let teamBElement: HTMLElement | undefined = $state();
 
 	// Watch for winning condition
 	$effect(() => {
 		if ($gameState.teamAScore === $gameState.maxPoints) {
-			fireConfetti('teamA');
+			fireConfetti(Team.TeamA);
 		} else if ($gameState.teamBScore === $gameState.maxPoints) {
-			fireConfetti('teamB');
+			fireConfetti(Team.TeamB);
 		}
 	});
 
-	function handleTeamATap(event: Event) {
-		event.preventDefault();
-		gameActions.addPoint('teamA');
+	function handleTeamATap() {
+		gameActions.addPoint(Team.TeamA);
 	}
 
-	function handleTeamBTap(event: Event) {
-		event.preventDefault();
-		gameActions.addPoint('teamB');
+	function handleTeamBTap() {
+		gameActions.addPoint(Team.TeamB);
 	}
 
 	function handleTeamASwipe(direction: string) {
 		if (direction === 'left') {
-			gameActions.removePoint('teamA');
+			gameActions.removePoint(Team.TeamA);
 		} else if (direction === 'right') {
-			gameActions.addPoint('teamA');
+			gameActions.addPoint(Team.TeamA);
 		}
 	}
 
 	function handleTeamBSwipe(direction: string) {
 		if (direction === 'left') {
-			gameActions.removePoint('teamB');
+			gameActions.removePoint(Team.TeamB);
 		} else if (direction === 'right') {
-			gameActions.addPoint('teamB');
+			gameActions.addPoint(Team.TeamB);
 		}
 	}
 
 	onMount(() => {
 		// Lock screen orientation to portrait
-		if (typeof window !== 'undefined' && screen && screen.orientation) {
+		if (typeof window !== 'undefined' && screen && screen.orientation && 'lock' in screen.orientation) {
 			try {
-				screen.orientation.lock('portrait').catch(() => {
+				(screen.orientation as any).lock('portrait').catch(() => {
 					// Fallback for browsers that don't support orientation lock
 					console.log('Orientation lock not supported');
 				});
@@ -66,8 +64,8 @@
 	$effect(() => {
 		if (!$isLoading && teamAElement && teamBElement && typeof window !== 'undefined') {
 			import('hammerjs').then(({ default: Hammer }) => {
-				const hammerA = new Hammer(teamAElement);
-				const hammerB = new Hammer(teamBElement);
+				const hammerA = new Hammer(teamAElement!);
+				const hammerB = new Hammer(teamBElement!);
 
 				hammerA.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
 				hammerB.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
@@ -86,7 +84,7 @@
 	<div class="game-area">
 		<!-- Team A Score Area -->
 		<ScoreArea
-			team="teamA"
+			team={Team.TeamA}
 			score={$gameState.teamAScore}
 			onclick={handleTeamATap}
 			bind:element={teamAElement}
@@ -95,7 +93,7 @@
 
 		<!-- Team B Score Area -->
 		<ScoreArea
-			team="teamB"
+			team={Team.TeamB}
 			score={$gameState.teamBScore}
 			onclick={handleTeamBTap}
 			bind:element={teamBElement}

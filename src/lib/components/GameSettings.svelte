@@ -105,6 +105,7 @@
 		border-radius: 0.25rem;
 		background: rgba(255, 255, 255, 0.1);
 		outline: none;
+		appearance: none;
 		-webkit-appearance: none;
 		backdrop-filter: blur(4px);
 		-webkit-backdrop-filter: blur(4px);
