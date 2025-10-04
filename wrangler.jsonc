@@ -1,0 +1,5 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ping-that-pong-web",
+  "compatibility_date": "2025-10-04",
+}
