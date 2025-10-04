@@ -3,5 +3,5 @@
   "name": "ping-that-pong-web",
   "compatibility_date": "2025-10-04",
   "compatibility_flags": ["nodejs_compat"],
-  "pages_build_output_dir": ".svelte-kit/output/client"
+  "pages_build_output_dir": "build"
 }
