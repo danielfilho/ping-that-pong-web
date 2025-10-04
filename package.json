@@ -7,7 +7,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "vite build && npm run copy-assets",
+		"copy-assets": "cp -r .svelte-kit/output/server/_app .svelte-kit/output/client/ 2>/dev/null || true",
 		"build:preview": "ADAPTER=static vite build",
 		"preview": "npm run build:preview && vite preview --outDir build",
 		"preview:cf": "npm run build && wrangler pages dev .svelte-kit/output/client --port 4173",
